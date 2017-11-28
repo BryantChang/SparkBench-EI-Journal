@@ -12,11 +12,23 @@ echo "========== running ${APP} bench =========="
 DU ${INPUT_HDFS} SIZE 
 
 JAR="${DIR}/target/KMeansApp-1.0.jar"
-CLASS="KmeansApp"
-OPTION=" ${INOUT_SCHEME}${INPUT_HDFS} ${INOUT_SCHEME}${OUTPUT_HDFS} ${NUM_OF_CLUSTERS} ${MAX_ITERATION} ${NUM_RUN}"
+CLASS="kmeans_min.src.main.scala.SimpleKMeans"
+OPTION=" ${INPUT_HDFS} ${OUTPUT_HDFS} ${NUM_OF_CLUSTERS} ${MAX_ITERATION} ${STORAGE_LEVEL} ${NUM_OF_PARTITIONS}"
+echo $OPTION
+if  [ $# -ge 1 ] && [ $1 = "graphx" ]; then
 
+	APP=KMeans
+	CLASS="KmeansApp"
+	OPTION=" ${INOUT_SCHEME}${INPUT_HDFS} ${INOUT_SCHEME}${OUTPUT_HDFS} ${NUM_OF_CLUSTERS} ${MAX_ITERATION} ${NUM_RUN}"
+fi
+
+echo "start to execute iostat"
+
+# sh +x iostat_execute.sh "dm-2" ${APP}_${TYPE}_${EXEMEM} &
+# ssh spark2 "sh +x iostat_execute.sh \"dm-2\" ${APP}_${TYPE}_${EXEMEM} &"&
 
 setup
+
 for((i=0;i<${NUM_TRIALS};i++)); do
     RM ${OUTPUT_HDFS}
     # (Optional procedure): free page cache, dentries and inodes.
@@ -31,6 +43,9 @@ for((i=0;i<${NUM_TRIALS};i++)); do
     get_config_fields >> ${BENCH_REPORT}
     print_config  ${APP} ${START_TIME} ${END_TIME} ${SIZE} ${START_TS} ${res}>> ${BENCH_REPORT};
 done
+# iostat_stop.sh ${APP}
+# ssh spark2 "iostat_stop.sh ${APP}"
+# ssh spark2 "mv /home/hadoop/bryantchang/platforms/logs/spark/spark.log /home/hadoop/bryantchang/platforms/logs/spark/${APP}_${TYPE}_${EXEMEM}.log"
 teardown
 
 exit 0

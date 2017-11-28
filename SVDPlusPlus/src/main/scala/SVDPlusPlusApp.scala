@@ -26,7 +26,7 @@ package src.main.scala
 
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
-import org.apache.spark.{SparkContext,SparkConf, Logging}
+import org.apache.spark.{SparkContext,SparkConf}
 import org.apache.spark.SparkContext._
 import org.apache.spark.graphx._
 import org.apache.spark.graphx.lib._
@@ -91,7 +91,7 @@ object SVDPlusPlusApp {
       Edge(fields(0).toLong , fields(1).toLong, fields(2).toDouble)
       
     }
-    edges.persist()    
+    edges.persist()
     
   }else{
     sc.stop()
@@ -102,31 +102,16 @@ object SVDPlusPlusApp {
     var (newgraph, u) = SVDPlusPlus.run(edges, conf)
     newgraph.persist()
     
-	var tri_size=newgraph.triplets.count() //collect().size
+	  var tri_size=newgraph.triplets.count() //collect().size
 	
-    var err = newgraph.vertices.collect().map{ case (vid, vd) =>
+    var err = newgraph.vertices.collect().map{
+      case (vid, vd) =>
         if (vid % 2 == 1) vd._4 else 0.0
     }.reduce(_ + _) / tri_size
     
         
     println("the err is %.2f".format(err))
-	
-	//second iteration
-	/*conf.rank=20
-	conf.maxIters=10
-	
-    var (newgraph, u) = SVDPlusPlus.run(edges, conf)
-    newgraph.persist()
-    
-	var tri_size=newgraph.triplets.count() //collect().size
-	
-    var err = newgraph.vertices.collect().map{ case (vid, vd) =>
-        if (vid % 2 == 1) vd._4 else 0.0
-    }.reduce(_ + _) / tri_size
-    
-        
-    println("the err is %.2f".format(err))
-	*/
+
     sc.stop();
     
   }

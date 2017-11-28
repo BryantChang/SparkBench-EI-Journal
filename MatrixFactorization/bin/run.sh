@@ -11,7 +11,8 @@ DU ${INPUT_HDFS} SIZE
 
 
 CLASS="MatrixFactorization.src.main.java.MFApp"
-OPTION=" ${INOUT_SCHEME}${INPUT_HDFS} ${INOUT_SCHEME}${OUTPUT_HDFS} ${rank} ${MAX_ITERATION} ${LAMBDA} ${STORAGE_LEVEL}"
+OPTION="${INPUT_HDFS} ${OUTPUT_HDFS} ${rank} ${MAX_ITERATION} ${LAMBDA} ${STORAGE_LEVEL}"
+echo $OPTION
 JAR="${DIR}/target/MFApp-1.0.jar"
 
 #CLASS="src.main.scala.MFMovieLens"

@@ -22,6 +22,7 @@ import org.apache.log4j.Level
 import com.google.common.primitives.UnsignedBytes
 import org.apache.spark.SparkContext._
 import org.apache.spark._
+import org.apache.spark.storage.StorageLevel
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
@@ -35,13 +36,14 @@ object terasortApp {
             Logger.getLogger("org.apache.spark").setLevel(Level.WARN);
             Logger.getLogger("org.eclipse.jetty.server").setLevel(Level.OFF);
 
+            var sl:StorageLevel = StorageLevel.MEMORY_AND_DISK_SER
             if (args.length < 2) {
                 println("Usage:[input-file] [output-file]")      
                     System.exit(0)
             }
 
             // Process command line arguments
-            val inputFile = args(0)
+                val inputFile = args(0)
                 val outputFile = args(1)
 
                 val conf = new SparkConf()
@@ -49,7 +51,7 @@ object terasortApp {
                 .setAppName(s"TeraSort")
                 val sc = new SparkContext(conf)
 
-                val dataset = sc.newAPIHadoopFile[Array[Byte], Array[Byte], TeraInputFormat](inputFile)
+                val dataset = sc.newAPIHadoopFile[Array[Byte], Array[Byte], TeraInputFormat](inputFile).persist(sl)
                 val sorted = dataset.partitionBy(new TeraSortPartitioner(dataset.partitions.size)).sortByKey()
                 sorted.saveAsNewAPIHadoopFile[TeraOutputFormat](outputFile)
         }

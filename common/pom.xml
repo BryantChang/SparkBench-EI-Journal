@@ -41,11 +41,7 @@
         <artifactId>json-simple</artifactId>
         <version>1.1</version>
     </dependency>
-	<dependency>
-       <groupId>edu.jhu.nlp</groupId>
-        <artifactId>wikixmlj</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
+
 
   </dependencies> 
   <build>

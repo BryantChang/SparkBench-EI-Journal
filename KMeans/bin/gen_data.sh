@@ -3,6 +3,8 @@ bin=`dirname "$0"`
 bin=`cd "$bin"; pwd`
 DIR=`cd $bin/../; pwd`
 . "${DIR}/../bin/config.sh"
+
+
 . "${DIR}/bin/config.sh"
 
 echo "========== preparing ${APP} data =========="

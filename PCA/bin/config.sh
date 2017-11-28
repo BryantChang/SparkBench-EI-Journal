@@ -10,8 +10,9 @@ fi
 
 # paths
 APP=PCA
-INPUT_HDFS=${DATA_HDFS}/${APP}/Input
-OUTPUT_HDFS=${DATA_HDFS}/${APP}/Output
+APP_DIR=${DATA_HDFS}/${APP}
+INPUT_HDFS=${DATA_HDFS}/${APP}/Input_${TYPE}
+OUTPUT_HDFS=${DATA_HDFS}/${APP}/Output_${TYPE}
 
 # Either stand alone or yarn cluster
 APP_MASTER=${SPARK_MASTER}

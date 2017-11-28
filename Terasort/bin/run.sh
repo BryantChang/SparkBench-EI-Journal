@@ -18,6 +18,8 @@ OPTION="${INOUT_SCHEME}${INPUT_HDFS} ${INOUT_SCHEME}${OUTPUT_HDFS} "
 Addition_jar="--jars ${DIR}/target/jars/guava-19.0-rc2.jar"
 
 
+echo "start to execute iostat"
+ssh spark2 "sh +x iostat_execute.sh \"dm-2\" ${APP}_${TYPE} &"&
 setup
 for((i=0;i<${NUM_TRIALS};i++)); do
     echo "${APP} opt ${OPTION}"
@@ -31,6 +33,7 @@ for((i=0;i<${NUM_TRIALS};i++)); do
     get_config_fields >> ${BENCH_REPORT}
     print_config  ${APP} ${START_TIME} ${END_TIME} ${SIZE} ${START_TS} ${res}>> ${BENCH_REPORT};
 done
+ssh spark2 "iostat_stop.sh ${APP}"
 teardown
 exit 0
 

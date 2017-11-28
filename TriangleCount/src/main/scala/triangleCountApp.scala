@@ -25,7 +25,7 @@
 package src.main.scala
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
-import org.apache.spark.{SparkContext,SparkConf, Logging}
+import org.apache.spark.{SparkContext,SparkConf}
 import org.apache.spark.SparkContext._
 import org.apache.spark.graphx._
 import org.apache.spark.graphx.lib._
@@ -37,11 +37,12 @@ import org.apache.spark.storage.StorageLevel
 object triangleCountApp {
 
   def main(args: Array[String]) {
-    if (args.length != 4) {    
+    if (args.length != 4) {
+      println(args.length)    
 	  println("usage: <input> <output> <minEdge> <StorageLevel> ")
       System.exit(0)
     }
-	Logger.getLogger("org.apache.spark").setLevel(Level.WARN)
+	  Logger.getLogger("org.apache.spark").setLevel(Level.WARN)
     Logger.getLogger("org.eclipse.jetty.server").setLevel(Level.OFF)
 	
     val conf = new SparkConf
@@ -51,7 +52,7 @@ object triangleCountApp {
     val input = args(0) 
     val output = args(1)
     val minEdge = args(2).toInt
-	val storageLevel=args(3)
+	  val storageLevel=args(3)
     
 	var sl:StorageLevel=StorageLevel.MEMORY_ONLY;
 	if(storageLevel=="MEMORY_AND_DISK_SER")

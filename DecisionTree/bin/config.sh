@@ -9,9 +9,9 @@ if [ -f "${bin}/../conf/env.sh" ]; then
 fi
 
 APP=DecisionTree
-INPUT_HDFS=${DATA_HDFS}/${APP}/Input
-OUTPUT_HDFS_Classification=${DATA_HDFS}/${APP}/Output-Classification
-OUTPUT_HDFS_Regression=${DATA_HDFS}/${APP}/Output-Classification
+INPUT_HDFS=${DATA_HDFS}/${APP}/Input_${TYPE}
+OUTPUT_HDFS_Classification=${DATA_HDFS}/${APP}/Output-Classification_${TYPE}
+OUTPUT_HDFS_Regression=${DATA_HDFS}/${APP}/Output-Classification_${TYPE}
 
 # either stand alone or yarn cluster
 APP_MASTER=${SPARK_MASTER}

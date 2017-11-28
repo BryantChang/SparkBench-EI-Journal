@@ -9,8 +9,8 @@ if [ -f "${bin}/../conf/env.sh" ]; then
 fi
 
 APP=ConnectedComponent
-INPUT_HDFS=${DATA_HDFS}/${APP}/Input
-OUTPUT_HDFS=${DATA_HDFS}/${APP}/Output
+INPUT_HDFS=${DATA_HDFS}/${APP}/Input_${TYPE}
+OUTPUT_HDFS=${DATA_HDFS}/${APP}/Output_${TYPE}
 
 
 # Either stand alone or yarn cluster

@@ -25,6 +25,7 @@ object KmeansApp {
   def main(args: Array[String]) {
     Logger.getLogger("org.apache.spark").setLevel(Level.WARN);
     Logger.getLogger("org.eclipse.jetty.server").setLevel(Level.OFF);
+    System.out.println(args.length);
     if (args.length < 4) {
       println("usage: <input> <output> <numClusters> <maxIterations> <runs> - optional")
       System.exit(0)
@@ -32,7 +33,7 @@ object KmeansApp {
     val conf = new SparkConf
     conf.setAppName("Spark KMeans Example")
     val sc = new SparkContext(conf)
-
+    System.out.println(sc.applicationId);
     val input = args(0)
     val output = args(1)
     val K = args(2).toInt

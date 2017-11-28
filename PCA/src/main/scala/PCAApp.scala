@@ -21,6 +21,7 @@ import org.apache.log4j.Logger
 import org.apache.log4j.Level
 import org.apache.spark.mllib.util.MLUtils
 import org.apache.spark.mllib.feature.PCA
+import org.apache.spark.storage.StorageLevel
 import org.apache.spark.{SparkContext,SparkConf}
 import org.apache.spark.SparkContext._
 
@@ -47,20 +48,21 @@ object PCAApp {
             // val parsedData = sc.textFile(input)
             println("START load")
             var start = System.currentTimeMillis();
-        val data = MLUtils.loadLabeledPoints(sc, input).cache()
+            var storageLevel = StorageLevel.MEMORY_AND_DISK_SER
+            val data = MLUtils.loadLabeledPoints(sc, input).persist(storageLevel)
             val loadTime = (System.currentTimeMillis() - start).toDouble / 1000.0
 
             // build model
             println("START training")
             start = System.currentTimeMillis();
-        val pca = new PCA(dimensions).fit(data.map(_.features))
+            val pca = new PCA(dimensions).fit(data.map(_.features))
             val trainingTime = (System.currentTimeMillis() - start).toDouble / 1000.0
 
             println("START test")
             start = System.currentTimeMillis();
-        val training_pca = data.map(p => p.copy(features = pca.transform(p.features)))
+            val training_pca = data.map(p => p.copy(features = pca.transform(p.features)))
             val numData = training_pca.count();
-        val testTime = (System.currentTimeMillis() - start).toDouble / 1000.0
+            val testTime = (System.currentTimeMillis() - start).toDouble / 1000.0
 
             println(compact(render(Map("loadTime" -> loadTime, "trainingTime" -> trainingTime, "testTime" -> testTime))))
             println("Number of Data = " + numData)

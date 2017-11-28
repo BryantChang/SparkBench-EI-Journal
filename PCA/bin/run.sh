@@ -15,6 +15,11 @@ JAR="${DIR}/target/PCAApp-1.0.jar"
 CLASS="PCA.src.main.scala.PCAApp"
 OPTION=" ${INOUT_SCHEME}${INPUT_HDFS} ${DIMENSIONS}"
 
+
+# echo "start to execute iostat"
+# sh +x iostat_execute.sh "dm-2" ${APP}_${TYPE}_${EXEMEM} &
+# ssh spark2 "sh +x iostat_execute.sh \"dm-2\" ${APP}_${TYPE}_${EXEMEM} &"&
+
 setup
 for((i=0;i<${NUM_TRIALS};i++)); do
     purge_data "${MC_LIST}"	
@@ -28,6 +33,10 @@ for((i=0;i<${NUM_TRIALS};i++)); do
     get_config_fields >> ${BENCH_REPORT}
     print_config  ${APP} ${START_TIME} ${END_TIME} ${SIZE} ${START_TS} ${res}>> ${BENCH_REPORT};
 done
+# iostat_stop.sh ${APP}
+# ssh spark2 "iostat_stop.sh ${APP}"
+# mv /home/hadoop/bryantchang/platforms/logs/spark/spark.log /home/hadoop/bryantchang/platforms/logs/spark/${APP}_${TYPE}_${EXEMEM}_master.log
+# ssh spark2 "mv /home/hadoop/bryantchang/platforms/logs/spark/spark.log /home/hadoop/bryantchang/platforms/logs/spark/${APP}_${TYPE}_${EXEMEM}.log"
 teardown
 
 exit 0

@@ -25,6 +25,7 @@ import org.apache.log4j.Level;
 public class MFApp {
 
     public static void main(String[] args) {
+        System.out.println(args.length);
         if (args.length < 5) {
             System.out.println("usage: <input> <output> <rank> <maxIterations> <lambda> <storageLevel>");
             System.exit(0);

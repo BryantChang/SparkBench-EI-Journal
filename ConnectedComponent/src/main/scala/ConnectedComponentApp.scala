@@ -25,7 +25,7 @@
 package src.main.scala
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
-import org.apache.spark.{SparkContext,SparkConf, Logging}
+import org.apache.spark.{SparkContext,SparkConf}
 import org.apache.spark.SparkContext._
 import org.apache.spark.graphx._
 import org.apache.spark.graphx.lib._
@@ -50,7 +50,7 @@ Logger.getLogger("org.eclipse.jetty.server").setLevel(Level.OFF);
     val output = args(1)
 	val minEdge= args(2).toInt
 	
-	val graph = GraphLoader.edgeListFile(sc, input, true, minEdge, StorageLevel.MEMORY_AND_DISK, StorageLevel.MEMORY_AND_DISK)	
+	val graph = GraphLoader.edgeListFile(sc, input, true, minEdge, StorageLevel.MEMORY_AND_DISK_SER, StorageLevel.MEMORY_AND_DISK_SER)
 	val res = graph.connectedComponents().vertices
    	
 	res.saveAsTextFile(output);

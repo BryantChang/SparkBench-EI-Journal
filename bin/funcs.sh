@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -27,6 +28,11 @@ function timestamp() {
     tmp=`expr $sec \* 1000 `
     msec=`expr $nanosec / 1000000 `
     echo `expr $tmp + $msec`
+}
+
+function get_second() {
+    sec=`date +%s`
+    echo `expr $sec`
 }
 
 function get_report_field_name() {
@@ -154,7 +160,7 @@ function RM() {
     else
        ${HADOOP_HOME}/bin/hdfs dfs -test -d $tmpdir;
        if [ $? == 1 ]; then  return 1; fi
-      ${HADOOP_HOME}/bin/hdfs dfs -rmr $tmpdir
+      ${HADOOP_HOME}/bin/hdfs dfs -rm -r -skipTrash $tmpdir
     fi
 }
 function MKDIR() {  

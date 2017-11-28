@@ -14,3 +14,4 @@ SPARK_STORAGE_MEMORYFRACTION=0.004
 
 SPARK_SERIALIZER=org.apache.spark.serializer.JavaSerializer
 SPARK_IO_COMPRESSION_CODEC=snappy
+TYPE="Small"
