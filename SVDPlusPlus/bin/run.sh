@@ -10,7 +10,8 @@ echo "========== running ${APP} benchmark =========="
 
 
 # path check
-
+exp_type=$1
+exp_no=$2
 DU ${INPUT_HDFS} SIZE 
 
 JAR="${DIR}/target/SVDPlusPlusApp-1.0.jar"
@@ -25,7 +26,7 @@ echo "start to execute iostat"
 
 setup
 for((i=0;i<${NUM_TRIALS};i++)); do
-    echo "###############################"
+
     RM ${OUTPUT_HDFS}
     purge_data "${MC_LIST}"	
     START_TS=`get_start_ts`;
@@ -35,8 +36,8 @@ for((i=0;i<${NUM_TRIALS};i++)); do
     res=$?;
     END_TIME=`timestamp`
     END_SEC=`get_second`
-    duration_sec=`expr $END_SEC - $START_SEC`
-    echo "$duration_sec s"
+	duration_sec=`expr $END_SEC - $START_SEC`
+    echo "${APP}:$duration_sec" >>  "$DURATION_LOG_PATH/exp_${exp_type}_${exp_no}.log"
     get_config_fields >> ${BENCH_REPORT}
     print_config  ${APP} ${START_TIME} ${END_TIME} ${SIZE} ${START_TS} ${res}>> ${BENCH_REPORT};
 done

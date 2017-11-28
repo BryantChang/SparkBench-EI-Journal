@@ -8,7 +8,8 @@ DIR=`cd $bin/../; pwd`
 
 echo "========== running ${APP} benchmark =========="
 
-
+exp_type=$1
+exp_no=$2
 # path check
 DU ${INPUT_HDFS} SIZE 
 
@@ -28,9 +29,13 @@ for((i=0;i<${NUM_TRIALS};i++)); do
 	purge_data "${MC_LIST}"	
 	START_TS=`get_start_ts`;
 	START_TIME=`timestamp`
+	START_SEC=`get_second`
 	echo_and_run sh -c " ${SPARK_HOME}/bin/spark-submit --class $CLASS ${YARN_OPT} ${SPARK_OPT} ${SPARK_RUN_OPT} $JAR ${OPTION} 2>&1|tee ${BENCH_NUM}/${APP}_run_${START_TS}.dat"
 res=$?;
 	END_TIME=`timestamp`
+	END_SEC=`get_second`
+	duration_sec=`expr $END_SEC - $START_SEC`
+    echo "${APP}:$duration_sec" >>  "$DURATION_LOG_PATH/exp_${exp_type}_${exp_no}.log"
 get_config_fields >> ${BENCH_REPORT}
 print_config  ${APP} ${START_TIME} ${END_TIME} ${SIZE} ${START_TS} ${res}>> ${BENCH_REPORT};
 done

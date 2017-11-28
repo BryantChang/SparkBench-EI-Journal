@@ -11,7 +11,8 @@ echo "========== running ${APP} benchmark =========="
 
 # path check
 
-exp_no=$1
+exp_type=$1
+exp_no=$2
 
 DU ${INPUT_HDFS} SIZE 
 
@@ -38,7 +39,7 @@ res=$?;
 	END_TIME=`timestamp`
 	END_SEC=`get_second`
 	duration_sec=`expr $END_SEC - $START_SEC`
-    echo "$duration_sec" >>  "$DURATION_LOG_PATH/exp_${exp_no}"
+    echo "${APP}:${duration_sec}" >>  "$DURATION_LOG_PATH/exp_${exp_type}_${exp_no}.log"
 get_config_fields >> ${BENCH_REPORT}
 print_config  ${APP} ${START_TIME} ${END_TIME} ${SIZE} ${START_TS} ${res}>> ${BENCH_REPORT};
 done
