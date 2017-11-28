@@ -45,7 +45,7 @@ for((i=0;i<${NUM_TRIALS};i++)); do
     END_TIME=`timestamp`
     END_SEC=`get_second`
 	duration_sec=`expr $END_SEC - $START_SEC`
-    echo "${APP}:$duration_sec" >>  "$DURATION_LOG_PATH/exp_${exp_type}_${exp_no}.log"
+    echo "${APP}:$duration_sec" >>  "$DURATION_LOG_PATH/${exp_type}/exp_${exp_no}.log"
     get_config_fields >> ${BENCH_REPORT}
     print_config  ${APP} ${START_TIME} ${END_TIME} ${SIZE} ${START_TS} ${res}>> ${BENCH_REPORT};
 done
