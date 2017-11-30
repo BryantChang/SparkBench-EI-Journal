@@ -15,6 +15,7 @@ OUTPUT_HDFS=${DATA_HDFS}/${APP}/Output_${TYPE}
 
 
 APP_MASTER=${SPARK_MASTER}
+echo $APP_MASTER
 
 set_gendata_opt
 set_run_opt
